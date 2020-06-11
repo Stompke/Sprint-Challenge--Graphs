@@ -31,6 +31,10 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+## MY CODE START
+################################################################################################################################
+
+
 backtrack = False
 s = Stack()
 journal = {}
@@ -39,8 +43,6 @@ for i in range(len(room_graph)):
     journal[i] = {'n': '?', 's': '?', 'w': '?', 'e': '?'}
 
 
-## MY CODE START
-################
 
 def get_opposite(direction):
     if direction == 'n':
@@ -52,7 +54,7 @@ def get_opposite(direction):
     if direction == 'w':
         return 'e'
 
-print('CURRENT ROOM ID: ', player.current_room.id)
+print('Starting ROOM ID: ', player.current_room.id)
 print('CURRENT EXITS: ', player.current_room.get_exits())
 print('CURRENT EXITS STRING: ', player.current_room.get_exits_string())
 print('Map File Length: ', len(room_graph))
@@ -67,6 +69,9 @@ my_visited_rooms.add(player.current_room.id)
 # while False:
 
 while len(my_visited_rooms) < len(room_graph):
+
+    
+
 
     first_room = player.current_room.id
 
@@ -102,8 +107,9 @@ while len(my_visited_rooms) < len(room_graph):
 print('Final Journal: ', journal)
 print('My visited rooms length: ', len(my_visited_rooms))
 print('Map file length: ', len(room_graph))
+print('Eding ROOM ID: ', player.current_room.id)
 
-            
+
 
         # while backtrack is True:
             # Pop off direction
@@ -112,7 +118,10 @@ print('Map file length: ', len(room_graph))
         # If no unknown rooms:
             # Set backtrack to True
 
-################
+
+
+
+################################################################################################################################
 ## MY CODE END
 
 
