@@ -68,6 +68,9 @@ my_visited_rooms.add(player.current_room.id)
 
 # while False:
 
+# Check to see if a loop has no forks
+loop = {'id': None, 'is_clean': False, 'moves': 0}
+
 while len(my_visited_rooms) < len(room_graph):
 
     # Get current Room ID
@@ -75,8 +78,9 @@ while len(my_visited_rooms) < len(room_graph):
 
     backtrack = False
 
-    # Fill in NONE Directions
     first_room_directions = player.current_room.get_exits()
+
+    # Fill in NONE Directions
     for direction in journal[first_room]:
         if direction not in first_room_directions:
             journal[first_room][direction] = None
@@ -84,28 +88,55 @@ while len(my_visited_rooms) < len(room_graph):
 
     # Check which rooms we dont know.
     num_known_rooms = 0
+    num_unknown_rooms = 0
     for direction in journal[first_room]:
         if journal[first_room][direction] != '?':
             num_known_rooms += 1
         # if a room is unknown
         elif not None:
+            num_unknown_rooms += 1
             move_to_room = direction
     # If all rooms are known
     if num_known_rooms == 4:        
         backtrack = True
 
+    # Set loop details
+    if num_unknown_rooms > 1:
+        loop['id'] = first_room
+        loop['is_clean'] = True
+        loop['moves'] = 0
+
     # Start Backtracking
     if backtrack is True:
-        last_move = s.pop()
-        move_to_room = get_opposite(last_move)
-        # Add to traversal path Where i am about to Go
-        traversal_path.append(move_to_room)
-        # Go There
-        player.travel(move_to_room)
+        # if first_room == loop['id'] and s.size() > 0:
+        if False:
+            print(s.size())
+            for i in range(loop['moves']):
+                s.pop()
+            print(s.size())
+            print(loop['moves'])
+            last_move = s.pop()
+            print('last move', last_move)
+            move_to_room = get_opposite(last_move)
+            print(f'Moving from room {first_room} in direction {move_to_room}')
+            print('moving')
+            # Add to traversal path Where i am about to Go
+            traversal_path.append(move_to_room)
+            # Go There
+            player.travel(move_to_room)
+            
+        else:
+            last_move = s.pop()
+            move_to_room = get_opposite(last_move)
+            # Add to traversal path Where i am about to Go
+            traversal_path.append(move_to_room)
+            # Go There
+            player.travel(move_to_room)
+            print(f'Moving from room {first_room} in direction {move_to_room}')
 
     # If i should NOT backtrack
     else:
-        print(f'Room {first_room} Directions: ', journal[first_room])
+        # print(f'Room {first_room} Directions: ', journal[first_room])
         print(f'Moving from room {first_room} in direction {move_to_room}')
         # Add to Stack where I am about to Go
         s.push(move_to_room)
@@ -113,6 +144,8 @@ while len(my_visited_rooms) < len(room_graph):
         traversal_path.append(move_to_room)
         # Go There
         player.travel(move_to_room)
+        # Add to loop moves
+        loop['moves'] += 1
         # fill in journal For first and second room
         second_room = player.current_room.id
         journal[first_room][move_to_room] = second_room
